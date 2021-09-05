@@ -1,0 +1,86 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Scenes/player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/platform_small.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scripts/game.gd" type="Script" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 81.5761, 10.9094 )
+
+[sub_resource type="PhysicsMaterial" id=2]
+friction = 0.0
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 348.286, 10.9094 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 21, 300 )
+
+[node name="game" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2( 807.152, 490.316 )
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource( 1 )
+one_way_collision = true
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2( 388.012, 494.277 )
+collision_layer = 2
+physics_material_override = SubResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+shape = SubResource( 3 )
+
+[node name="wall" type="StaticBody2D" parent="."]
+position = Vector2( 765, 300 )
+collision_layer = 4
+physics_material_override = SubResource( 2 )
+
+[node name="ColorRect" type="ColorRect" parent="wall"]
+margin_left = -21.0
+margin_top = -300.0
+margin_right = 21.0
+margin_bottom = 300.0
+color = Color( 0.0666667, 0.341176, 0.921569, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall"]
+visible = false
+shape = SubResource( 4 )
+
+[node name="wall2" type="StaticBody2D" parent="."]
+position = Vector2( 0, 300 )
+collision_layer = 4
+physics_material_override = SubResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall2"]
+shape = SubResource( 4 )
+
+[node name="ColorRect" type="ColorRect" parent="wall2"]
+margin_left = -21.0
+margin_top = -300.0
+margin_right = 21.0
+margin_bottom = 300.0
+color = Color( 0.0666667, 0.341176, 0.921569, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 135.844, 394.575 )
+
+[node name="platform spawn" type="Timer" parent="."]
+process_mode = 0
+wait_time = 3.0
+autostart = true
+
+[node name="platform_small" parent="." instance=ExtResource( 2 )]
+position = Vector2( 651, 281.682 )
+
+[connection signal="timeout" from="platform spawn" to="." method="_on_platform_spawn_timeout"]
