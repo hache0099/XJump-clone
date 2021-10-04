@@ -54,10 +54,10 @@ position = Vector2( -0.5, 0 )
 shape = SubResource( 1 )
 
 [node name="Label" type="Label" parent="."]
-margin_left = 263.783
-margin_top = 347.85
-margin_right = 303.783
-margin_bottom = 361.85
+margin_left = 544.328
+margin_top = 513.283
+margin_right = 584.328
+margin_bottom = 527.283
 __meta__ = {
 "_edit_use_anchors_": false
 }

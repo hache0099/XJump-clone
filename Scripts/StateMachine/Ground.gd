@@ -1,6 +1,6 @@
 extends Node
 
-var stateMachine 
+var stateMachine : Node
 
 export(NodePath) var label
 export(NodePath) var sprite
@@ -14,14 +14,19 @@ var canDetectAir : bool = false
 
 func _ready():
 	stateMachine = get_parent()
-	print(owner.get_name())
 
 func initialize(move_speed : float):
 	move.x = move_speed
+	if owner.is_on_floor():
+		var coll : KinematicCollision2D = owner.get_slide_collision(owner.get_slide_count() - 1)
+		if coll.get_normal() == Vector2.UP:
+			var err = coll.get_collider().get("fall_speed")
+			if err:
+				move.y = coll.get_collider().fall_speed
 
 func set_active(value : bool):
 	set_physics_process(value)
-	set_process(value)
+#	set_process(value)
 	if !value:
 		move = Vector2.ZERO
 		canDetectAir = false
@@ -32,7 +37,7 @@ func teclas():
 	var up = Input.is_action_pressed("ui_up")
 	
 	if up:
-		if owner.is_on_floor() or owner.isOnFloor:
+		if owner.is_on_floor():
 			stateMachine.changeState("air",[move,true])
 			return
 	
@@ -54,6 +59,11 @@ func _physics_process(delta):
 	else:
 		if move.y > 0:
 			move.y = 0
+
+#	if owner.is_on_floor():
+#		var coll : KinematicCollision2D = owner.get_slide_collision(owner.get_slide_count() - 1)
+#		if coll.get_normal() == Vector2.UP:
+#			move.y = coll.get_collider().fall_speed
 	
 #	get_node(label).set_text("ground")
-	owner.move_and_slide_with_snap(move,Vector2(0,32),Vector2.UP)
+	owner.move_and_slide_with_snap(move, Vector2(0,40), Vector2.UP)

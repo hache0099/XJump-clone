@@ -11,6 +11,7 @@ const distances = {
 
 func _ready():
 	randomize()
+#	Engine.set_time_scale(0.2)
 
 func create_platform(type : int):
 	var p = platforms[type].instance()

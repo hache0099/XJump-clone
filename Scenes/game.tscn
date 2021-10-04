@@ -1,7 +1,7 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scenes/player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Scenes/platform_small.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scripts/platform_prueba.gd" type="Script" id=2]
 [ext_resource path="res://Scripts/game.gd" type="Script" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -15,6 +15,9 @@ extents = Vector2( 348.286, 10.9094 )
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 21, 300 )
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 53, 6 )
 
 [node name="game" type="Node2D"]
 script = ExtResource( 3 )
@@ -73,14 +76,36 @@ __meta__ = {
 }
 
 [node name="player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 135.844, 394.575 )
+position = Vector2( 497.422, 443.673 )
 
 [node name="platform spawn" type="Timer" parent="."]
 process_mode = 0
 wait_time = 3.0
 autostart = true
 
-[node name="platform_small" parent="." instance=ExtResource( 2 )]
+[node name="platform_small" type="StaticBody2D" parent="."]
 position = Vector2( 651, 281.682 )
+collision_layer = 2
+script = ExtResource( 2 )
+
+[node name="ColorRect" type="ColorRect" parent="platform_small"]
+margin_left = -53.0
+margin_top = -6.0
+margin_right = 53.0
+margin_bottom = 6.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="platform_small"]
+shape = SubResource( 5 )
+one_way_collision = true
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="platform_small"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 660.359, 447.647 )
+zoom = Vector2( 0.5, 0.5 )
 
 [connection signal="timeout" from="platform spawn" to="." method="_on_platform_spawn_timeout"]
+[connection signal="screen_exited" from="platform_small/VisibilityNotifier2D" to="platform_small" method="_on_VisibilityNotifier2D_screen_exited"]
