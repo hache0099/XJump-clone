@@ -105,6 +105,7 @@ one_way_collision = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 660.359, 447.647 )
+current = true
 zoom = Vector2( 0.5, 0.5 )
 
 [connection signal="timeout" from="platform spawn" to="." method="_on_platform_spawn_timeout"]

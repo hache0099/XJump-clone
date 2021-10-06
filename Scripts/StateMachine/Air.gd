@@ -19,7 +19,7 @@ func _ready():
 
 func set_active(value : bool):
 	set_physics_process(value)
-	set_process(value)
+#	set_process(value)
 	if !value:
 		move = Vector2.ZERO
 		canDetectFloor = false

@@ -37,7 +37,7 @@ func teclas():
 	var up = Input.is_action_pressed("ui_up")
 	
 	if up:
-		if owner.is_on_floor():
+#		if owner.is_on_floor():
 			stateMachine.changeState("air",[move,true])
 			return
 	
